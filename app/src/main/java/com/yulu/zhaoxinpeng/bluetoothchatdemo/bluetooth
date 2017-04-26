@@ -1,0 +1,24 @@
+基础知识：
+介绍
+BlueToothAdaper
+BlueToothDevice
+BlueToothSocket
+BlueToothServerSocket
+
+准备：
+添加权限
+<uses-permission android:name="android.permission.BLUETOOTH"/>
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+1. 获取蓝牙适配器：判空的操作，看是否支持蓝牙
+2. 启动蓝牙：isEnable()判断蓝牙是否已经启动了
+3. 发现设备：搜索，查询周围已开启的蓝牙设备(可被检测到)
+    1. 用广播扫描
+    2. 开启可检测性
+4. 检测到设备之后建立连接
+    在Demo，所以客户端和服务端在一起了
+    具体，明天实现通讯
+
+总结：
+完成开启、搜索，可以把搜索的设备展示出来
+
