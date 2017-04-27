@@ -22,8 +22,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static android.R.string.no;
-
+/**
+ * 未完成，待完善
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_BLUETOOTH_ENABLE = 1;
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         //动态注册广播接收器
         IntentFilter mIntentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);//找到
         registerReceiver(mReceiver, mIntentFilter);
-        //mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);//扫描结束
-        //registerReceiver(mReceiver, mIntentFilter);
+        mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);//扫描结束
+        registerReceiver(mReceiver, mIntentFilter);
 
     }
 
@@ -100,17 +101,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.e("action",action);
+            Log.e("action", action);
             // 判断是不是搜索设备的Action
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // 拿到得到的蓝牙设备
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.e("device",device+"");
-                mDeviceAdapter.add(device.getName()+"\n"+device.getAddress());
+                Log.e("device", device + "");
+                mDeviceAdapter.add(device.getName() + "\n" + device.getAddress());
                 mDeviceAdapter.notifyDataSetChanged();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 // 判断：如果当前没有设备，可以提示一下
-                if (mDeviceAdapter.getCount()==0){
+                if (mDeviceAdapter.getCount() == 0) {
                     Toast.makeText(context, "设备未找到", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -121,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
     //开启设备可检测性，并开始搜索其他设备
     @OnClick({R.id.btn_discover})
     public void initChat() {
+
+        mDeviceAdapter.clear();
+        mDeviceAdapter.notifyDataSetChanged();
 
         if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 
@@ -142,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.button_send)
-    public void onClickview(){
+    public void onClickview() {
         // TODO 发送消息建立通讯
     }
 
